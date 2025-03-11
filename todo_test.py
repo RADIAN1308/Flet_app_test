@@ -6,6 +6,15 @@ def main(page: Page):
     FWG = "#97b4ff"
     FG = "#3450a1"
     PINK = "#eb06ff"
+
+
+
+    #Tasks column
+    tasks = Column(
+
+    )
+
+
     # categories card
     categories_card = Row(
         #insert a scroll wheel
@@ -37,6 +46,8 @@ def main(page: Page):
                 )
             )
         )
+
+
     #pages and their contents
     first_page_contents = Container(
         content=Column(
@@ -62,7 +73,18 @@ def main(page: Page):
                 Container(
                     padding=padding.only(top=10,bottom=20),
                     content=categories_card
-                )
+
+                ),
+                Container(height=18),
+                Text(value="TODAY'S TASKS: "),
+                Stack(
+                    controls=[
+                        tasks,
+                        FloatingActionButton(
+                            icon=icons.ADD,on_click=lambda e: page.go('/create_task')
+                        )
+                    ]
+                ),
             ]
         )
     )
@@ -83,6 +105,17 @@ def main(page: Page):
             )
         ]
     )
+
+# create task page
+    create_task_view = Container(
+        content=Column(
+            controls=[
+                Text(value="LOLOLOLOLLOLOLOLOL!!!!!!!")
+            ]
+        )
+
+    )
+
     # container object
     container = Container(
         # object properties
@@ -97,6 +130,33 @@ def main(page: Page):
         )
 
     )
+
+
+    # pages required for each route change made into a dictionary / is home route viz container
+    pages = {
+        "/": View(
+            "/",
+            [
+                container,
+            ],
+        ),
+        "/create_task": View(
+            "/create_task",
+            [create_task_view],
+        ),
+    }
+
+    # route change and view switch function
+    def route_change(route):
+        page.views.clear()
+        page.views.append(
+
+        )
+
+
     page.add(container)
+
+    page.on_route_change = route_change
+    page.go(page.route)
 
 ft.app(main)
