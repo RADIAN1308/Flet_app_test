@@ -36,6 +36,7 @@ def main(page: Page):
     #add controls
     page.add(
         ft.Stack(
+
             [
                 ft.Stack(
                     width=270,
@@ -59,9 +60,10 @@ def main(page: Page):
                             ]
                         )
                     )
-                )
+                ),
 
-            ]
+
+            ],
         )
 
     )
