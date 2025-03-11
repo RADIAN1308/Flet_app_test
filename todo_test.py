@@ -14,11 +14,27 @@ def main(page: Page):
 
     )
     categories = ['Business','Family','Friends','Work']
-    for x in categories:
+    for i, x in enumerate(categories):
         #appends a container to the Row
         categories_card.controls.append(
             Container(
-                bgcolor=BG,height=110,width=200,border_radius=20,padding=10
+                bgcolor=BG,height=110,width=200,border_radius=20,padding=10,
+                content = Column(
+                    controls=[
+                        Text(value="40 tasks"),
+                        Text(x),
+                        Container(
+                            width= 170,
+                            height=5,
+                            border_radius=20,
+                            padding= padding.only(right=30*i)
+                            ,content= Container(
+                                bgcolor=PINK
+                            )
+                        )
+                    ]
+
+                )
             )
         )
     #pages and their contents
