@@ -150,9 +150,8 @@ def main(page: Page):
     def route_change(route):
         page.views.clear()
         page.views.append(
-
+            pages[page.route]
         )
-
 
     page.add(container)
 
