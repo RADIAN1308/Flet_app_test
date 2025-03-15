@@ -1,6 +1,8 @@
 from flet import *
 import flet as ft
 def main(page: Page):
+    page.window.height = 700,
+    page.window.width = 500,
     # colors used
     BG = "#041955"
     FWG = "#97b4ff"
@@ -53,7 +55,7 @@ def main(page: Page):
         content=Column(
             controls=[
                 Row(
-                    alignment='spaceBetween',
+                    alignment=MainAxisAlignment.SPACE_BETWEEN,
                     controls=[
                         Container(
                             content=Icon(icons.MENU)
