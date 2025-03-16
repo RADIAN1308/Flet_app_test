@@ -51,7 +51,24 @@ class Task(ft.Column):
             ]
         )
 
-#         Add the display view and the edit view into the task object using controls since task object is a column
+        # Add the display view and the edit view into the task object using controls since task object is a column
+        self.controls= [self.display_view,self.edit_view]
+
+    def edit_clicked(self,e):
+        self.edit_name.value = self.display_task.label
+        self.display_view.visible =False
+        self.edit_view.visible = True
+        self.update()
+
+    def save_clicked(self,e):
+        self.display_task.label = self.edit_name.value
+        self.edit_view.visible = False
+        self.display_view.visible = True
+        self.update()
+
+    def delete_clicked(self,e):
+        self.task_delete(self)
+
 
 
 
@@ -61,7 +78,7 @@ class Todo_App(ft.Column):
     def __init__(self):
         super().__init__()
         self.new_task = ft.TextField(hint_text="What is the next task to be done?",expand=True)
-        self.tasks_view = ft.Column()
+        self.tasks = ft.Column()
         self.width = 600
         self.controls=[
             ft.Row(
@@ -70,12 +87,17 @@ class Todo_App(ft.Column):
                     ft.FloatingActionButton(icon=ft.Icons.ADD, on_click=self.add_clicked),
                 ]
             ),
-            self.tasks_view,
+            self.tasks,
         ]
 
     def add_clicked(self,e):
-        self.tasks_view.controls.append(ft.Checkbox(label=self.new_task.value))
+        task = Task(self.new_task.value,self.task_delete)
+        self.tasks.controls.append(task)
         self.new_task.value = ""
+        self.update()
+
+    def task_delete(self,task):
+        self.tasks.controls.remove(task)
         self.update()
 
 def main(page: ft.Page):
