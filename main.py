@@ -1,5 +1,5 @@
 import flet as ft
-from flet.core.icons import icons
+from flet.core.icons import icons, Icons
 
 
 # class for each task
@@ -54,6 +54,7 @@ class Task(ft.Column):
         # Add the display view and the edit view into the task object using controls since task object is a column
         self.controls= [self.display_view,self.edit_view]
 
+
     def edit_clicked(self,e):
         self.edit_name.value = self.display_task.label
         self.display_view.visible =False
@@ -79,6 +80,13 @@ class Todo_App(ft.Column):
         super().__init__()
         self.new_task = ft.TextField(hint_text="What is the next task to be done?",expand=True)
         self.tasks = ft.Column()
+        #Task view container
+        self.Tbox = ft.Container(
+            bgcolor="#872341",
+            padding=20,
+            border_radius=20,
+            content=self.tasks
+        )
         self.width = 600
         self.controls=[
             ft.Row(
@@ -87,7 +95,8 @@ class Todo_App(ft.Column):
                     ft.FloatingActionButton(icon=ft.Icons.ADD, on_click=self.add_clicked),
                 ]
             ),
-            self.tasks,
+            self.Tbox,
+
         ]
 
     def add_clicked(self,e):
@@ -102,13 +111,46 @@ class Todo_App(ft.Column):
 
 def main(page: ft.Page):
     page.title = "To-do List App"
+
+    todo = Todo_App()
+    #Main app view
+    box = ft.Container(
+        border_radius=20,
+        padding=40,
+        bgcolor="#09122C",
+        height=600,
+        width=450,
+        content=ft.Column(
+            controls=[
+                ft.Row(
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                    controls=[
+                        ft.Container(
+                            content=ft.Icon(icons.MENU_ROUNDED)
+                        ),
+                        ft.Container(
+                            content=ft.Row(
+                                controls=[
+                                    ft.Icon(icons.NOTIFICATIONS_ROUNDED),
+                                    ft.Icon(icons.PERSON_2_ROUNDED)
+                                ]
+                            )
+                        )
+
+                    ]
+
+                ),
+                todo
+            ]
+        )
+    )
     page.horizontal_alignment= ft.CrossAxisAlignment.CENTER
     page.update()
 
-    todo = Todo_App()
 
 
-    page.add(todo)
+
+    page.add(box)
 
 
 
