@@ -7,6 +7,7 @@ class Todo_App(ft.Column):
         super().__init__()
         self.new_task = ft.TextField(hint_text="What is the next task to be done?",expand=True)
         self.tasks = ft.Column()
+        self.items_left = ft.Text("0 Items Left")
 
         #Tabs for filtering all active and completed tasks
         self.filter = ft.Tabs(
@@ -21,14 +22,30 @@ class Todo_App(ft.Column):
             padding=20,
             border_radius=20,
             content=ft.Column(
+                spacing=25,
                 controls=[
-                    self.tasks,
                     self.filter,
+                    self.tasks,
+                    ft.Row(
+                        controls=[self.items_left,
+                                  ft.OutlinedButton(
+                                      text="Clear Tasks",on_click=self.clear_clicked
+                                  ),
+                                  ],
+                        alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                        vertical_alignment=ft.CrossAxisAlignment.CENTER
+                    )
                 ]
             )
         )
         self.width = 600
         self.controls=[
+            ft.Row(
+                controls=[
+                    ft.Text(value="CheckList",theme_style=ft.TextThemeStyle.HEADLINE_MEDIUM)
+                ],
+                alignment=ft.MainAxisAlignment.CENTER
+            ),
             ft.Row(
                 controls=[
                     self.new_task,
@@ -38,6 +55,13 @@ class Todo_App(ft.Column):
             self.Tbox,
 
         ]
+
+
+
+    def clear_clicked(self,e):
+        for task in self.tasks.controls[:]:
+            if task.completed:
+                self.task_delete(task)
 
 
 
@@ -59,12 +83,16 @@ class Todo_App(ft.Column):
 
     def before_update(self):
         status = self.filter.tabs[self.filter.selected_index].text
+        count =0
         for task in self.tasks.controls:
             task.visible = (
                     status == "All"
                     or (status == "Active" and task.completed == False)
                     or (status == "Completed" and task.completed)
             )
+            if not task.completed:
+                count +=1
+        self.items_left.value = f"{count} active Items left.."
 
     def tabs_changed(self, e):
         self.update()
