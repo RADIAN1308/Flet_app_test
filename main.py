@@ -140,7 +140,7 @@ class Task(ft.Column):
 
     def status_changed(self,e):
         self.completed = self.display_task.value
-        self.task_status_change()
+        self.task_status_change(e)
 
     def delete_clicked(self,e):
         self.task_delete(self)
