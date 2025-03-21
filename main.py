@@ -20,7 +20,12 @@ class Todo_App(ft.Column):
             bgcolor="#872341",
             padding=20,
             border_radius=20,
-            content=self.tasks
+            content=ft.Column(
+                controls=[
+                    self.tasks,
+                    self.filter,
+                ]
+            )
         )
         self.width = 600
         self.controls=[
